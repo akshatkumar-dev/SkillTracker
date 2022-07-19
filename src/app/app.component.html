@@ -1,0 +1,103 @@
+<div class="container">
+  <div class="row mt-2">
+    <div class="dropdown col">
+      <button
+        class="btn btn-outline-primary dropdown-toggle text-capitalize w-100 p-0 py-2"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        {{ selectedCriteria }}
+      </button>
+      <div class="dropdown-menu w-75" aria-labelledby="dropdownMenuButton">
+        <div *ngFor="let criteria of criteriaList">
+          <button
+            value="{{ criteria }}"
+            (click)="selectCriteriaHandler($event)"
+            class="dropdown-item text-capitalize"
+          >
+            {{ criteria }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col" *ngIf="selectedCriteria !== skillCriteria">
+      <input
+        type="text"
+        [(ngModel)]="criteriaValue"
+        placeholder="Criteria Value"
+        class="py-2 px-1 w-100"
+      />
+    </div>
+
+    <div class="dropdown col" *ngIf="selectedCriteria === skillCriteria">
+      <button
+        class="btn btn-outline-warning dropdown-toggle text-capitalize w-100 p-0 py-2"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        {{ selectedSkill }}
+      </button>
+      <div class="dropdown-menu w-75" aria-labelledby="dropdownMenuButton">
+        <div *ngFor="let skill of techSkillList">
+          <button
+            value="{{ skill }}"
+            (click)="selectSkillHandler($event)"
+            class="dropdown-item text-capitalize"
+          >
+            {{ skill }}
+          </button>
+        </div>
+        <div class="dropdown-divider"></div>
+
+        <div *ngFor="let skill of nonTechSkillList">
+          <button
+            value="{{ skill }}"
+            (click)="selectSkillHandler($event)"
+            class="dropdown-item text-capitalize"
+          >
+            {{ skill }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <button
+        [disabled]="isLoading"
+        class="btn btn-success w-100 p-0 py-2"
+        (click)="profileSearchHandler()"
+      >
+        Search
+      </button>
+    </div>
+  </div>
+  <div *ngFor="let profile of profileDisplay">
+    <hr />
+    <div class="row mt-2">
+      <div class="col">
+        <p>Name: {{ profile.Name }}</p>
+        <p>ID: {{ profile.AssociateId }}</p>
+        <p>Email: {{ profile.Email }}</p>
+        <p>Mobile: {{ profile.Mobile }}</p>
+      </div>
+      <div class="col">
+        <div *ngFor="let skill of profile.TechnicalSkill">
+          <p>{{ skill.name }} : {{ skill.value }}</p>
+        </div>
+      </div>
+      <div class="col">
+        <div *ngFor="let skill of profile.NonTechnicalSkill">
+          <p>{{ skill.name }} : {{ skill.value }}</p>
+        </div>
+      </div>
+    </div>
+    <hr />
+  </div>
+</div>
+
+<router-outlet></router-outlet>
